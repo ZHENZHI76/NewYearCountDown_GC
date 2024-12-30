@@ -5,6 +5,12 @@ const countryMapping = {
         suffix: '的朋友',
         language: 'zh'
     },
+    'LU': {
+        name: 'Luxembourg',
+        prefix: 'Dear friend from',
+        suffix: '',
+        language: 'en'
+    },
     'US': {
         name: 'USA',
         prefix: 'Dear friend from',
@@ -54,15 +60,20 @@ const defaultMapping = {
 function formatLocation(countryInfo, city) {
     const { name, prefix, suffix, language } = countryInfo;
     
+    // 如果有城市信息，包含城市
+    if (city) {
+        if (language === 'zh') {
+            return `${prefix}${name}${city}${suffix}`;
+        } else {
+            return `${prefix} ${city}, ${name}`;
+        }
+    }
+    
+    // 没有城市信息时
     if (language === 'zh') {
-        return `${prefix}${name}${city ? city : ''}${suffix}`;
-    } else if (language === 'ja') {
-        return `${name}${city ? city : ''}${suffix}`;
-    } else if (language === 'ko') {
-        return `${name}${city ? city : ''}${suffix}`;
+        return `${prefix}${name}${suffix}`;
     } else {
-        // 英语和其他西方语言的格式
-        return `${prefix} ${city ? `${city}, ` : ''}${name}`;
+        return `${prefix} ${name}`;
     }
 }
 

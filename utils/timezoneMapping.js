@@ -49,6 +49,7 @@ const countryTimezones = {
             'Manaus': 'America/Manaus'
         }
     },
+    'LU': 'Europe/Luxembourg',
     // 添加更多国家...
 };
 

@@ -264,18 +264,14 @@ canvas#fireworks {
     text-align: center;
     color: #FFB74D;
     font-size: 1rem;
-    margin-top: -20px;
-    margin-bottom: 20px;
+    margin: -10px 0 20px;
     opacity: 0.8;
-    display: none; /* 默认隐藏，只在需要时显示 */
 }
 
-/* 在移动设备上调整样式 */
 @media (max-width: 768px) {
     .timezone-display {
         font-size: 0.9rem;
-        margin-top: -15px;
-        margin-bottom: 15px;
+        margin: -8px 0 15px;
     }
 } 
 
