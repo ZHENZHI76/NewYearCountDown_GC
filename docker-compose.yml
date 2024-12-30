@@ -1,0 +1,18 @@
+version: '3'
+services:
+  newyear:
+    build: .
+    container_name: newyear-countdown
+    restart: always
+    ports:
+      - "23331:23331"
+    environment:
+      - PORT=23331
+      - NODE_ENV=production
+      - SILICONFLOW_API_KEY=your_api_key_here
+    networks:
+      - nginx-proxy-manager_nginx-proxy-manager
+
+networks:
+  nginx-proxy-manager_nginx-proxy-manager:
+    external: true 

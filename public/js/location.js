@@ -7,32 +7,12 @@ async function getVisitorLocation() {
     } catch (error) {
         console.error('获取位置信息失败:', error);
         return {
-            country: '世界',
-            city: '某个角落',
+            countryName: '世界某处',
+            city: '',
+            prefix: '来自',
+            suffix: '的朋友',
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
         };
-    }
-}
-
-async function generateGreeting(locationData) {
-    try {
-        const response = await fetch('/api/greetings', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(locationData)
-        });
-        
-        if (!response.ok) {
-            throw new Error('API 请求失败');
-        }
-        
-        const data = await response.json();
-        return data.greeting;
-    } catch (error) {
-        console.error('生成祝福语失败:', error);
-        return `亲爱的来自${locationData.country}${locationData.city}的朋友，愿新的一年带给您无限希望与喜悦！`;
     }
 }
 
@@ -44,15 +24,21 @@ async function updateGreeting() {
     greetingElement.style.opacity = '0';
     
     const locationData = await getVisitorLocation();
-    const greeting = await generateGreeting(locationData);
+    const response = await fetch('/api/greetings', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(locationData)
+    });
+    
+    const data = await response.json();
     
     setTimeout(() => {
-        // 显示位置信息
-        locationElement.textContent = `来自 ${locationData.country} ${locationData.city} 的朋友`;
+        locationElement.textContent = data.locationInfo;
         locationElement.style.opacity = '1';
         
-        // 显示祝福语
-        greetingElement.textContent = greeting;
+        greetingElement.textContent = data.greeting;
         greetingElement.style.opacity = '1';
     }, 300);
 }
