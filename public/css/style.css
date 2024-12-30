@@ -1,0 +1,248 @@
+:root {
+    --bg-primary: #940000;
+    --bg-secondary: #5C0000;
+    --card-bg: rgba(255, 247, 237, 0.1);
+    --text-gold: #FFD700;
+    --text-light-gold: #FFE5B4;
+    --border-gold: rgba(255, 215, 0, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    font-family: 'Noto Sans SC', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    background: rgba(255, 247, 237, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.1);
+    border: 1px solid var(--border-gold);
+}
+
+.content-wrapper {
+    width: 90%;
+    max-width: 1000px;
+    text-align: center;
+    z-index: 1;
+    padding: 4rem 2rem;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.1);
+}
+
+.title {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 3.5rem;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.time-block {
+    background: var(--card-bg);
+    border: 1px solid var(--border-gold);
+    border-radius: 15px;
+    padding: 25px;
+    min-width: 120px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.time-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.25);
+    background: rgba(255, 247, 237, 0.15);
+}
+
+.time-card {
+    background: linear-gradient(145deg, rgba(255, 77, 77, 0.1), rgba(255, 215, 0, 0.1));
+    padding: 2rem;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(255, 77, 77, 0.1);
+    transition: all 0.3s ease;
+}
+
+.time-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 77, 77, 0.2);
+}
+
+.number {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+.label {
+    color: var(--text-light-gold);
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.greeting-container {
+    background: var(--card-bg);
+    border: 1px solid var(--border-gold);
+    border-radius: 15px;
+    padding: 30px;
+    margin-top: 40px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
+}
+
+.visitor-location {
+    color: var(--text-gold);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.greeting {
+    color: var(--text-light-gold);
+    font-size: 1.4rem;
+    line-height: 1.8;
+    text-align: center;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes shimmer {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.title {
+    background-size: 200% auto;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 15px;
+    }
+
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .countdown {
+        gap: 15px;
+    }
+
+    .time-block {
+        padding: 15px;
+        min-width: 80px;
+    }
+
+    .number {
+        font-size: 2.5rem;
+    }
+
+    .label {
+        font-size: 1rem;
+    }
+
+    .visitor-location {
+        font-size: 1.4rem;
+    }
+
+    .greeting {
+        font-size: 1.2rem;
+    }
+} 
+
+canvas#fireworks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+} 
+
+/* 添加光晕动画 */
+@keyframes glow {
+    0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.1); }
+    50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.2); }
+    100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.1); }
+}
+
+.time-block {
+    animation: glow 2s infinite;
+} 
+
+/* 添加渐变光效 */
+.title {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 3.5rem;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.number {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+/* 添加呼吸光效 */
+@keyframes breathe {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.15); }
+    50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
+}
+
+.time-block {
+    animation: breathe 3s infinite;
+}
+
+.greeting-container {
+    animation: breathe 3s infinite;
+    animation-delay: 1.5s;
+} 
