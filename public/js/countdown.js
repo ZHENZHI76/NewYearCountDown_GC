@@ -1,24 +1,23 @@
 async function initializeCountdown() {
     try {
-        // 获取访问者信息
+        // 获取访问者时区信息
         const response = await fetch('/api/visitor-location');
         const data = await response.json();
-        const visitorTimezone = data.timezone.name;
-        const language = data.language || 'en';
-
-        // 更新页面语言
-        updatePageLanguage(language);
+        console.log('Visitor data:', data);
         
-        // 显示时区信息
-        updateTimezoneDisplay(data.timezone, language);
+        const visitorTimezone = data.timezone.name || 'UTC';
+        
+        // 更新时区显示
+        updateTimezoneDisplay(data.timezone);
         
         // 开始倒计时
-        startCountdown(visitorTimezone);
+        updateCountdown(visitorTimezone);
+        setInterval(() => updateCountdown(visitorTimezone), 1000);
     } catch (error) {
         console.error('初始化失败:', error);
         // 使用默认值
-        updatePageLanguage('en');
-        startCountdown('UTC');
+        updateCountdown('UTC');
+        setInterval(() => updateCountdown('UTC'), 1000);
     }
 }
 
@@ -38,25 +37,27 @@ function updatePageLanguage(language) {
     });
 }
 
-function startCountdown(timezone) {
-    updateCountdown(timezone);
-    setInterval(() => updateCountdown(timezone), 1000);
-}
-
 function updateCountdown(timezone) {
     try {
         // 获取目标时区的当前时间
         const now = new Date();
         
-        // 设置目标时区的2025新年时间点
+        // 设置2025年新年时间点（使用具体的时区）
         const newYear = new Date('2025-01-01T00:00:00');
         
         // 转换为访问者时区的时间
         const userNow = new Date(now.toLocaleString('en-US', { timeZone: timezone }));
         const userNewYear = new Date(newYear.toLocaleString('en-US', { timeZone: timezone }));
         
-        // 计算时差
-        const diff = userNewYear - userNow;
+        // 计算时差（毫秒）
+        const diff = userNewYear.getTime() - userNow.getTime();
+
+        console.log('Debug time info:', {
+            now: userNow.toString(),
+            newYear: userNewYear.toString(),
+            diff: diff,
+            timezone: timezone
+        });
 
         // 如果已经过了新年
         if (diff <= 0) {
@@ -76,7 +77,6 @@ function updateCountdown(timezone) {
 
     } catch (error) {
         console.error('倒计时更新失败:', error);
-        // 发生错误时显示默认值
         updateTimeBlocks(0, 0, 0, 0);
     }
 }
@@ -88,19 +88,16 @@ function updateTimeBlocks(days, hours, minutes, seconds) {
     document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
 }
 
-function updateTimezoneDisplay(timezoneInfo, language) {
+function updateTimezoneDisplay(timezoneInfo) {
     const timezoneDisplay = document.getElementById('timezone-display');
     if (!timezoneDisplay) return;
 
     if (timezoneInfo.isUTC) {
-        timezoneDisplay.textContent = language === 'zh' ? 
-            '(UTC 默认时区)' : '(UTC Default Timezone)';
+        timezoneDisplay.textContent = `(UTC 默认时区)`;
     } else {
         const location = timezoneInfo.location;
         const offset = timezoneInfo.offset;
-        timezoneDisplay.textContent = language === 'zh' ? 
-            `(${location} UTC${offset})` : 
-            `(${location} UTC${offset})`;
+        timezoneDisplay.textContent = `(${location} UTC${offset})`;
     }
     timezoneDisplay.style.display = 'block';
 }
