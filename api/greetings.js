@@ -3,10 +3,16 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const { getCountryInfo, formatLocation } = require('../utils/countryMapping');
-const { getTimezone } = require('../utils/timezoneMapping');
-const moment = require('moment-timezone');
+const { getTimezoneOffset, formatTimezoneLocation } = require('../utils/timezoneUtils');
+const { getTitle, getTimeLabels } = require('../utils/languageMapping');
 
 router.get('/visitor-location', (req, res) => {
+    console.log('Headers:', {
+        country: req.headers['cf-ipcountry'],
+        city: req.headers['cf-ipcity'],
+        timezone: req.headers['cf-timezone']
+    });
+
     const countryCode = req.headers['cf-ipcountry'] || 'UNKNOWN';
     const city = req.headers['cf-ipcity'] || '';
     const timezone = req.headers['cf-timezone'];
@@ -14,10 +20,16 @@ router.get('/visitor-location', (req, res) => {
     const countryInfo = getCountryInfo(countryCode);
     const formattedLocation = formatLocation(countryInfo, city);
     
+    console.log('Location Info:', {
+        countryCode,
+        countryInfo,
+        formattedLocation
+    });
+
     res.json({
         countryCode,
         formattedLocation,
-        language: countryInfo.language || 'en',
+        language: countryInfo.language,
         timezone: {
             name: timezone || 'UTC',
             isUTC: !timezone,

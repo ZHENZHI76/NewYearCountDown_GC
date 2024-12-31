@@ -5,14 +5,14 @@ const countryMapping = {
         suffix: '的朋友',
         language: 'zh'
     },
-    'LU': {
-        name: 'Luxembourg',
+    'US': {
+        name: 'United States',
         prefix: 'Dear friend from',
         suffix: '',
         language: 'en'
     },
-    'US': {
-        name: 'USA',
+    'LU': {
+        name: 'Luxembourg',
         prefix: 'Dear friend from',
         suffix: '',
         language: 'en'
@@ -51,10 +51,10 @@ const countryMapping = {
 };
 
 const defaultMapping = {
-    name: 'Unknown Location',
-    prefix: 'Dear friend from',
-    suffix: '',
-    language: 'en'
+    name: '未知位置',
+    prefix: '来自',
+    suffix: '的朋友',
+    language: 'zh'
 };
 
 function formatLocation(countryInfo, city) {
@@ -77,9 +77,25 @@ function formatLocation(countryInfo, city) {
     }
 }
 
+function getCountryInfo(countryCode) {
+    // 添加日志以便调试
+    console.log('Country Code:', countryCode);
+    
+    if (!countryCode || countryCode === 'UNKNOWN') {
+        console.log('Using default mapping due to unknown country code');
+        return defaultMapping;
+    }
+
+    const countryInfo = countryMapping[countryCode];
+    if (!countryInfo) {
+        console.log(`No mapping found for country code: ${countryCode}`);
+        return defaultMapping;
+    }
+
+    return countryInfo;
+}
+
 module.exports = {
-    getCountryInfo: (countryCode) => {
-        return countryMapping[countryCode] || defaultMapping;
-    },
+    getCountryInfo,
     formatLocation
 }; 
